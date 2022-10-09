@@ -34,6 +34,10 @@ module SparseHamiltonianFlows
         logp_lik::Function
         sample_q0::Function
         ∇potential_by_hand::Function
+        #debug
+        logpbar
+        logqbar
+        log_det
     end
 
     function sparse_flows(a::Args, ϵ_unc::Vector{Float64})

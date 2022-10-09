@@ -1,0 +1,13 @@
+name = "SparseHamiltonianFlows"
+uuid = "0fd8ee61-51dd-4bbf-9d87-17584bb05496"
+authors = ["Naitong Chen", "Zuheng Xu", "Trevor Campbell"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

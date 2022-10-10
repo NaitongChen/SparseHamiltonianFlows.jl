@@ -14,6 +14,7 @@ TickTock = "9ff05d80-102d-5586-aa04-3a8bd1a90d20"
 Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [compat]
+Zygote = "0.6"
 julia = "1"
 
 [extras]

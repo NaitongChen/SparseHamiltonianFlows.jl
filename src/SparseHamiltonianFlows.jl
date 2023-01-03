@@ -9,12 +9,38 @@ module SparseHamiltonianFlows
 
     mutable struct Args
         # data
-        d::Int64
-        N::Int64
-        xs::Matrix{Float64}
-        sub_xs::Union{Matrix{Float64}, Nothing}
+        # d: dimension of latent parameter
+        # N: number of observations
+        # xs: data matrix (N rows)
+        # inds: indices of the points in the coreset,
+        #       if not provided, a uniform
+        #       subsample will be drawn 
+        #       upon initialization
+        # sub_xs: points in the coreset (according to inds)
+
+        d::Int64 
+        N::Int64 
+        xs::Matrix{Float64} 
         inds::Union{Vector{Int64}, Nothing}
+        sub_xs::Union{Matrix{Float64}, Nothing}
+        
         # hyper params
+        # M: size of coreset (<= N)
+        # elbo_size: number of samples (of latent parameters) 
+        #            used to estimate the ELBO
+        # number_of_refresh: # quasi-refreshment
+        # K: # leapfrog steps between quasi-refreshment
+        # lf_n: total number of leapfrog steps (number_of_refresh * K)
+        # iter: number of optimization iterations 
+        #       (of coreset weights, leapfrog step sizes, and quasi-refreshment)
+        # cond: Boolean indicating whether quasi-refreshment is
+        #       conditional or marginal
+        # n_subsample_elbo: number of observations used to estimate the ELBO
+        # save: Boolean indicating whether to store the parameter values
+        #       throughout optimization iterations
+        # S_init: sample size used to obtain initial quasi-refreshment parameters
+        # S_final: deprecated, not used
+
         M::Int64
         elbo_size::Int64
         number_of_refresh::Int64
@@ -26,15 +52,20 @@ module SparseHamiltonianFlows
         save::Bool
         S_init::Int64
         S_final::Int64
-        # optimizer
+        
+        # optimizer: Flux optimizer
         optimizer
+        
         # sampling and likelihood functions
-        log_prior::Function
-        logq0::Function
-        logp_lik::Function
-        sample_q0::Function
-        ∇potential_by_hand::Function
-        #debug
+        log_prior::Function # prior distribution (in log space) 
+        logq0::Function # initial distribution of flow (in log space)
+        logp_lik::Function # sum over all individual log likelihoods
+        sample_q0::Function # function to sample from initial distribution
+        ∇potential_by_hand::Function # gradient of the logged unnormalized target wrt latent parameters
+        
+        # for storing components of the ELBO 
+        # and log determinants of quasi-refreshment
+        # for debugging purposes
         logpbar
         logqbar
         log_det
